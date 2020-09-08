@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { Map, TileLayer, Marker, Popup } from "react-leaflet"
+import "leaflet/dist/leaflet.css"
+import * as stateInfo from "./data/states-info.json"
+import "./App.css"
 
-function App() {
+import { Icon } from "leaflet"
+import icon from "leaflet/dist/images/marker-icon.png"
+
+const DefaultIcon = new Icon({
+  iconUrl: icon,
+  iconAnchor: [16, 2],
+})
+
+const App = () => {
+  const center = [28.70406, 77.102493]
+  const zoom = 5
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Map className="map" center={center} zoom={zoom} minZoom={2}>
+      <TileLayer
+        attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      {stateInfo.states.map((state) => (
+        <Marker position={state.properties.coordinates} icon={DefaultIcon}>
+          <Popup position={state.properties.coordinates}>
+            <div>
+              <h2>{state.properties.Name}</h2>
+              <p>{state.properties.country}</p>
+            </div>
+          </Popup>
+        </Marker>
+      ))}
+    </Map>
+  )
 }
 
-export default App;
+export default App
