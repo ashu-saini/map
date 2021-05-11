@@ -4,20 +4,23 @@ import "leaflet/dist/leaflet.css"
 import * as stateInfo from "./data/states-info.json"
 import "./App.css"
 
-import { Icon } from "leaflet"
+import L, { Icon } from "leaflet"
 import icon from "leaflet/dist/images/marker-icon.png"
 
 const DefaultIcon = new Icon({
   iconUrl: icon,
-  iconAnchor: [16, 2],
+  iconAnchor: [10, 33],
 })
 
 const App = () => {
   const center = [28.70406, 77.102493]
   const zoom = 5
+  const southWest = L.latLng(-89.98155760646617, -180)
+  const northEast = L.latLng(89.99346179538875, 180)
+  const bounds = L.latLngBounds(southWest, northEast)
 
   return (
-    <Map className="map" center={center} zoom={zoom} minZoom={2}>
+    <Map className="map" center={center} zoom={zoom} minZoom={2} maxBounds={bounds}>
       <TileLayer
         attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
